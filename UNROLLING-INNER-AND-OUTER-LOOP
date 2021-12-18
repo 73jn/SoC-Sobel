@@ -1,10 +1,14 @@
-One loop unrolling
+Inner loop and outer loop removed
 
 Hello from Nios II!
 Nr. of bytes each line    : 1024
 Nr. of lines each frame   : 384
 Nr. of frames each second : 20
-Grayscale : 130091654
-Sobel x : 552642293
-Sobel y : 553006593
+Grayscale : 130231121
+Sobel x : 434352995
+Sobel y : 434802981
+
+
+
+
 
