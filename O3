@@ -1,0 +1,11 @@
+-O3
+
+Hello from Nios II!
+Nr. of bytes each line    : 1024
+Nr. of lines each frame   : 384
+Nr. of frames each second : 9
+Grayscale : 51580376
+Sobel x : 35696655
+Sobel y : 32530480
+
+

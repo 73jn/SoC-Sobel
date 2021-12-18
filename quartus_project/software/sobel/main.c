@@ -9,6 +9,8 @@
 #include "vga.h"
 #include "dipswitch.h"
 #include "sobel.h"
+#include "sys/alt_timestamp.h"
+#include "alt_types.h"
 
 int main()
 {
@@ -32,7 +34,12 @@ int main()
   cam_set_image_pointer(3,buffer4);
   enable_continues_mode();
   init_sobel_arrays(cam_get_xsize()>>1,cam_get_ysize());
+
+  alt_timestamp_start();
   do {
+	  alt_u32 start_sobel_x=0, end_sobel_x=0, delta_x = 0;
+	  alt_u32 start_sobel_y=0, end_sobel_y=0, delta_y = 0;
+	  alt_u32 start_conv_grayscale=0, end_conv_grayscale=0, delta_grayscale = 0;
 	  if (new_image_available() != 0) {
 		  if (current_image_valid()!=0) {
 			  current_mode = DIPSW_get_value();
@@ -88,12 +95,32 @@ int main()
 		      	  		  vga_set_pointer(image);
 		      	  	   }
 		      	  	   break;
-		      default: conv_grayscale((void *)image,
+		      default:
+
+		    	       start_conv_grayscale = alt_timestamp();
+		    	  	   conv_grayscale((void *)image,
 	                                  cam_get_xsize()>>1,
 	                                  cam_get_ysize());
+		    	  	   end_conv_grayscale = alt_timestamp();
+		    	  	   delta_grayscale = end_conv_grayscale - start_conv_grayscale;
+		    	  	   printf("Grayscale : %d\n", delta_grayscale);
+
                        grayscale = get_grayscale_picture();
-                       sobel_x(grayscale);
-                       sobel_y(grayscale);
+
+
+		               start_sobel_x = alt_timestamp();
+		               sobel_x(grayscale);
+		               end_sobel_x = alt_timestamp();
+		               delta_x = end_sobel_x - start_sobel_x;
+		               printf("Sobel x : %d\n", delta_x);
+
+
+		               start_sobel_y = alt_timestamp();
+		               sobel_y(grayscale);
+		               end_sobel_y = alt_timestamp();
+		               delta_y = end_sobel_y - start_sobel_y;
+		               printf("Sobel y : %d\n", delta_y);
+
                        sobel_threshold(128);
                        grayscale=GetSobelResult();
 		               transfer_LCD_with_dma(&grayscale[16520],
