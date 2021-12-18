@@ -4,8 +4,9 @@ Hello from Nios II!
 Nr. of bytes each line    : 1024
 Nr. of lines each frame   : 384
 Nr. of frames each second : 20
-Grayscale : 130240055
-Sobel x : 1557006697
-Sobel y : 1557083025
+Grayscale : 130091654
+Sobel x : 552642293
+Sobel y : 553006593
+
 
 
